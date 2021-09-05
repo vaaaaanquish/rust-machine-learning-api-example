@@ -1,0 +1,11 @@
+[package]
+name = "rust-machine-learning-api-example"
+version = "0.1.0"
+authors = ["vaaaaanquish <6syun9@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.2.2"
+tokio = { version = "1.0", features = ["full"] }
