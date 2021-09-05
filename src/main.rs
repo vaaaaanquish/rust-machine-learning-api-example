@@ -1,10 +1,12 @@
-use axum::{handler::get, response::Html, Router};
+use axum::{handler::post, Router, Json};
+use serde::{Serialize, Deserialize};
+use serde_json::{json, Value};
 use std::net::SocketAddr;
 
 #[tokio::main]
 async fn main() {
     // build our application with a route
-    let app = Router::new().route("/", get(handler));
+    let app = Router::new().route("/", post(proc));
 
     // run it
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
@@ -15,6 +17,16 @@ async fn main() {
         .unwrap();
 }
 
-async fn handler() -> Html<&'static str> {
-    Html("<h1>Hello, World!</h1>")
+#[derive(Deserialize)]
+struct RequestJson {
+    message: String,
+}
+
+#[derive(Serialize)]
+struct ResponseJson {
+    message: String,
+}
+
+async fn proc(Json(payload): Json<RequestJson>) -> Json<Value> {
+    Json(json!({ "message": payload.message + " world!" }))
 }
