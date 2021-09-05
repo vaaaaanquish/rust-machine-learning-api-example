@@ -20,18 +20,18 @@ async fn main() {
 
 #[derive(Deserialize)]
 struct RequestJson {
-    message: String,
+    img: String,
 }
 
 #[derive(Serialize)]
 struct ResponseJson {
-    message: String,
+    result: String,
 }
 
 async fn proc(Json(payload): Json<RequestJson>) -> Json<Value> {
-    let img_buffer = base64::decode(&payload.message).unwrap();
+    let img_buffer = base64::decode(&payload.img).unwrap();
     let img = image::load_from_memory(img_buffer.as_slice()).unwrap();
     let rotate_img = rotate180(&img);
     rotate_img.save("output.png").unwrap();
-    Json(json!({ "message": "saved output.png" }))
+    Json(json!({ "result": "saved output.png" }))
 }
