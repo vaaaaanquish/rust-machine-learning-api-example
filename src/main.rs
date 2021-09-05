@@ -44,23 +44,18 @@ struct ResponseJson {
 
 async fn proc(Json(payload): Json<RequestJson>, Extension(state): Extension<Arc<DataState>>) -> Json<Value> {
     let img_buffer = base64::decode(&payload.img).unwrap();
-    let result = check_img(&state, img_buffer, payload.name);
-    Json(json!({ "result": result.await }))
-}
-
-
-async fn check_img(state: &DataState, img_buffer: Vec<u8>, name: String) -> &str {
     let mut set = state.set.lock().await;
 
     let result;
-    if set.contains(&name) {
+    if set.contains(&payload.name) {
         result = "skip by duplicated";
     } else {
         let img = image::load_from_memory(&img_buffer.as_slice()).unwrap();
         let rotate_img = rotate180(&img);
-        rotate_img.save(&name).unwrap();
-        set.insert(name);
+        rotate_img.save(&payload.name).unwrap();
+        set.insert(payload.name);
         result = "saved output image";
     }
-    return result
+    Json(json!({ "result": result }))
 }
+
