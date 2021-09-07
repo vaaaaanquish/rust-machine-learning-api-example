@@ -3,6 +3,6 @@ Example of Rust API for Machine Learning
 
 
 ```rust
-docker-compose up -d --build
+docker compose up -d --build
 python sample_request.py
 ```
