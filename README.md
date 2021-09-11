@@ -5,6 +5,8 @@ API example that uses `resnet224` to infer images received in base64 and returns
 
 Used pytorch rust bindings.
 
+fork (TensorFlow): https://github.com/dskkato/rust-machine-learning-api-example
+
 # Usage
 
 ```rust
